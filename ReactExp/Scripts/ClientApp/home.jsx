@@ -9,35 +9,67 @@ if (module.hot) {
 export class Home extends React.Component {
     constructor() {
         super();
-        this.state = { currentCount: 0 };
+        this.state = {
+            imageChoices: ['/images/cat.jpg', '/images/cow.jpg', '/images/dog.jpg', '/images/horse.jpg'],
+            currentImage: '/images/cat.jpg',
+            answerChoices: ['Cat', 'Cow', 'Dog', 'Horse']
+        };
     }
     render() {
         return <div>
             <div>
                 <h1> Hello, {this.props.foo}!</h1>
-                <p> Current click count: <strong> {this.state.currentCount} </strong></p>
-                <button onClick={() => { this.incrementCounter(); }}> Increment </button>
             </div>
             <div>
-                <div className="col-sm-5">
-                    <table className="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <image src={"/images/cat.jpg"} alt="cat"/>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div className="col-sm-5 border">
+                    <div className="panel panel-default">
+                        <div className="panel-heading text-center">Image</div>
+                        <div className="panel-body">
+                            <img src={this.state.currentImage} className="img-responsive"/>
+                        </div>
+                    </div>
                 </div>
-                <div className="col-sm-7">
+
+                
+                <div className="col-sm-2">
+                    <button className="btn" onClick={() => { this.refreshImage(); }}><i className="glyphicon glyphicon-refresh"/> </button>
+                </div>
+
+                <div className="col-sm-5 border-1">
+                    <div className="panel panel-default">
+                        <div className="panel-heading text-center">Answers</div>
+                        <div className="panel-body">
+                            <ul className="list-unstyled">
+                                {this.state.answerChoices.map((valueText, index) => {
+            return <li>
+                                        <button className="btn btn-lg btn-block btn-primary">
+                                            {valueText}
+                                        </button>
+                                        &nbsp;
+                                        </li>;
+        })}
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>;
     }
-    incrementCounter() {
+    refreshImage() {
+        { }
+        var newIndex;
+        var currentIndex = this.state.imageChoices.indexOf(this.state.currentImage);
+        if (currentIndex == 3) {
+            newIndex = 0;
+        }
+        else {
+            newIndex = currentIndex + 1;
+        }
+        var currentImage = this.state.imageChoices[newIndex];
         this.setState({
-            currentCount: this.state.currentCount + 1
+            currentImage: currentImage,
+            imageChoices: this.state.imageChoices,
+            answerChoices: this.state.answerChoices
         });
     }
 }

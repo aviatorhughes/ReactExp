@@ -23,7 +23,7 @@ module.exports = (env) => {
         resolve: {
             extensions: ['.js', '.jsx', '.ts', '.tsx']
         },
-        devtool: "source-map",
+        devtool: "source-map",  
         module: {
             rules: [
                 { test: /\.ts(x?)$/, include: /Scripts/, use: { loader: 'babel-loader', options: { cacheDirectory: true } } },

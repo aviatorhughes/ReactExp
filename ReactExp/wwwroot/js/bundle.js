@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "aa6857e0c047d7d30c80"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ec81dbe536aabfc0ae1f"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -2473,7 +2473,7 @@ var _components = {
 };
 
 var _reactTransformHmr2 = (0, _reactTransformHmr4.default)({
-    filename: 'C:/Users/snaru01/documents/visual studio 2017/Projects/ReactExp/ReactExp/Scripts/ClientApp/home.tsx',
+    filename: 'C:/Users/snaru01/Source/Repos/ReactExp/ReactExp/Scripts/ClientApp/home.tsx',
     components: _components,
     locals: [module],
     imports: [React.default]
@@ -2500,7 +2500,11 @@ var Home = exports.Home = _wrapComponent('Home')(function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this));
 
-        _this.state = { currentCount: 0 };
+        _this.state = {
+            imageChoices: ['/images/cat.jpg', '/images/cow.jpg', '/images/dog.jpg', '/images/horse.jpg'],
+            currentImage: '/images/cat.jpg',
+            answerChoices: ['Cat', 'Cow', 'Dog', 'Horse']
+        };
         return _this;
     }
 
@@ -2521,25 +2525,6 @@ var Home = exports.Home = _wrapComponent('Home')(function (_React$Component) {
                         ' Hello, ',
                         this.props.foo,
                         '!'
-                    ),
-                    React.createElement(
-                        'p',
-                        null,
-                        ' Current click count: ',
-                        React.createElement(
-                            'strong',
-                            null,
-                            ' ',
-                            this.state.currentCount,
-                            ' '
-                        )
-                    ),
-                    React.createElement(
-                        'button',
-                        { onClick: function onClick() {
-                                _this2.incrementCounter();
-                            } },
-                        ' Increment '
                     )
                 ),
                 React.createElement(
@@ -2547,43 +2532,86 @@ var Home = exports.Home = _wrapComponent('Home')(function (_React$Component) {
                     null,
                     React.createElement(
                         'div',
-                        { className: 'col-sm-5' },
+                        { className: 'col-sm-5 border' },
                         React.createElement(
-                            'table',
-                            { className: 'table table-bordered' },
+                            'div',
+                            { className: 'panel panel-default' },
                             React.createElement(
-                                'tbody',
-                                null,
-                                React.createElement(
-                                    'tr',
-                                    null,
-                                    React.createElement(
-                                        'td',
-                                        null,
-                                        React.createElement('image', { src: __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"/images/cat.jpg\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())), alt: 'cat' })
-                                    )
-                                )
+                                'div',
+                                { className: 'panel-heading text-center' },
+                                'Image'
+                            ),
+                            React.createElement(
+                                'div',
+                                { className: 'panel-body' },
+                                React.createElement('img', { src: this.state.currentImage, className: 'img-responsive' })
                             )
                         )
                     ),
                     React.createElement(
                         'div',
-                        { className: 'col-sm-offset1 col-sm-6' },
+                        { className: 'col-sm-2' },
+                        React.createElement(
+                            'button',
+                            { className: 'btn', onClick: function onClick() {
+                                    _this2.refreshImage();
+                                } },
+                            React.createElement('i', { className: 'glyphicon glyphicon-refresh' }),
+                            ' '
+                        )
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'col-sm-5 border-1' },
                         React.createElement(
                             'div',
-                            null,
-                            'Cat '
-                        ),
-                        React.createElement('image', { src: "/images/cow.jpg", alt: 'cat' })
+                            { className: 'panel panel-default' },
+                            React.createElement(
+                                'div',
+                                { className: 'panel-heading text-center' },
+                                'Answers'
+                            ),
+                            React.createElement(
+                                'div',
+                                { className: 'panel-body' },
+                                React.createElement(
+                                    'ul',
+                                    { className: 'list-unstyled' },
+                                    this.state.answerChoices.map(function (valueText, index) {
+                                        return React.createElement(
+                                            'li',
+                                            null,
+                                            React.createElement(
+                                                'button',
+                                                { className: 'btn btn-lg btn-block btn-primary' },
+                                                valueText
+                                            ),
+                                            '\xA0'
+                                        );
+                                    })
+                                )
+                            )
+                        )
                     )
                 )
             );
         }
     }, {
-        key: 'incrementCounter',
-        value: function incrementCounter() {
+        key: 'refreshImage',
+        value: function refreshImage() {
+            {}
+            var newIndex;
+            var currentIndex = this.state.imageChoices.indexOf(this.state.currentImage);
+            if (currentIndex == 3) {
+                newIndex = 0;
+            } else {
+                newIndex = currentIndex + 1;
+            }
+            var currentImage = this.state.imageChoices[newIndex];
             this.setState({
-                currentCount: this.state.currentCount + 1
+                currentImage: currentImage,
+                imageChoices: this.state.imageChoices,
+                answerChoices: this.state.answerChoices
             });
         }
     }]);
