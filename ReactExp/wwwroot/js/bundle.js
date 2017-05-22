@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "ec81dbe536aabfc0ae1f"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "2d59fe12a4e06be2bfdd"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -2440,7 +2440,7 @@ module.exports = g;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.Home = undefined;
+exports.DisplayResult = exports.Home = undefined;
 
 var _react2 = __webpack_require__(173);
 
@@ -2469,6 +2469,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var _components = {
     Home: {
         displayName: 'Home'
+    },
+    DisplayResult: {
+        displayName: 'DisplayResult'
     }
 };
 
@@ -2503,7 +2506,8 @@ var Home = exports.Home = _wrapComponent('Home')(function (_React$Component) {
         _this.state = {
             imageChoices: ['/images/cat.jpg', '/images/cow.jpg', '/images/dog.jpg', '/images/horse.jpg'],
             currentImage: '/images/cat.jpg',
-            answerChoices: ['Cat', 'Cow', 'Dog', 'Horse']
+            answerChoices: ['Cat', 'Cow', 'Dog', 'Horse'],
+            passed: false
         };
         return _this;
     }
@@ -2583,7 +2587,9 @@ var Home = exports.Home = _wrapComponent('Home')(function (_React$Component) {
                                             null,
                                             React.createElement(
                                                 'button',
-                                                { className: 'btn btn-lg btn-block btn-primary' },
+                                                { className: 'btn btn-lg btn-block btn-primary', onClick: function onClick() {
+                                                        _this2.validateAnswer(valueText);
+                                                    } },
                                                 valueText
                                             ),
                                             '\xA0'
@@ -2593,7 +2599,8 @@ var Home = exports.Home = _wrapComponent('Home')(function (_React$Component) {
                             )
                         )
                     )
-                )
+                ),
+                React.createElement(DisplayResult, { isCorrect: this.state.passed })
             );
         }
     }, {
@@ -2607,16 +2614,71 @@ var Home = exports.Home = _wrapComponent('Home')(function (_React$Component) {
             } else {
                 newIndex = currentIndex + 1;
             }
-            var currentImage = this.state.imageChoices[newIndex];
+            var newImage = this.state.imageChoices[newIndex];
             this.setState({
-                currentImage: currentImage,
+                currentImage: newImage,
                 imageChoices: this.state.imageChoices,
-                answerChoices: this.state.answerChoices
+                answerChoices: this.state.answerChoices,
+                passed: this.state.passed
+            });
+        }
+    }, {
+        key: 'validateAnswer',
+        value: function validateAnswer(selectedAnswer) {
+            var isCorrect = this.state.currentImage.indexOf(selectedAnswer.toLowerCase()) != -1;
+            this.setState({
+                currentImage: this.state.currentImage,
+                imageChoices: this.state.imageChoices,
+                answerChoices: this.state.answerChoices,
+                passed: isCorrect
             });
         }
     }]);
 
     return Home;
+}(React.Component));
+
+var DisplayResult = exports.DisplayResult = _wrapComponent('DisplayResult')(function (_React$Component2) {
+    _inherits(DisplayResult, _React$Component2);
+
+    function DisplayResult() {
+        _classCallCheck(this, DisplayResult);
+
+        return _possibleConstructorReturn(this, (DisplayResult.__proto__ || Object.getPrototypeOf(DisplayResult)).apply(this, arguments));
+    }
+
+    _createClass(DisplayResult, [{
+        key: 'render',
+        value: function render() {
+            return React.createElement(
+                'div',
+                { className: 'clear-fix row' },
+                this.props.isCorrect ? React.createElement(
+                    'div',
+                    { className: 'text-success jumbotron' },
+                    React.createElement(
+                        'h1',
+                        null,
+                        ' ',
+                        React.createElement('i', { className: 'glyphicon glyphicon-ok' }),
+                        ' Yay! '
+                    )
+                ) : React.createElement(
+                    'div',
+                    { className: 'text-danger' },
+                    React.createElement(
+                        'h1',
+                        null,
+                        ' ',
+                        React.createElement('i', { className: 'glyphicon glyphicon-ok' }),
+                        ' Oops.. Try again.. '
+                    )
+                )
+            );
+        }
+    }]);
+
+    return DisplayResult;
 }(React.Component));
 
 ReactDOM.render(React.createElement(Home, { foo: 'shiva' }), document.getElementById('app'));

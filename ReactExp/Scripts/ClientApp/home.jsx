@@ -42,7 +42,7 @@ export class Home extends React.Component {
                             <ul className="list-unstyled">
                                 {this.state.answerChoices.map((valueText, index) => {
             return <li>
-                                        <button className="btn btn-lg btn-block btn-primary">
+                                        <button className="btn btn-lg btn-block btn-primary" onClick={() => { this.validateAnswer(valueText); }}>
                                             {valueText}
                                         </button>
                                         &nbsp;
@@ -65,12 +65,15 @@ export class Home extends React.Component {
         else {
             newIndex = currentIndex + 1;
         }
-        var currentImage = this.state.imageChoices[newIndex];
+        var newImage = this.state.imageChoices[newIndex];
         this.setState({
-            currentImage: currentImage,
+            currentImage: newImage,
             imageChoices: this.state.imageChoices,
             answerChoices: this.state.answerChoices
         });
+    }
+    validateAnswer(selectedAnswer) {
+        console.log(selectedAnswer);
     }
 }
 ReactDOM.render(<Home foo='shiva'/>, document.getElementById('app'));

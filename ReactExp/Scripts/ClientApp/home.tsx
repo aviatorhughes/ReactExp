@@ -16,8 +16,9 @@ interface ComponentProps {
 
 interface ComponentState {
     imageChoices: string[];
-    currentImage: string; 
+    currentImage: string;
     answerChoices: string[];
+    passed: boolean;
 }
 
 export class Home extends React.Component<ComponentProps, ComponentState>{
@@ -26,7 +27,8 @@ export class Home extends React.Component<ComponentProps, ComponentState>{
         this.state = {
             imageChoices: ['/images/cat.jpg', '/images/cow.jpg', '/images/dog.jpg', '/images/horse.jpg'],
             currentImage: '/images/cat.jpg',
-            answerChoices: ['Cat', 'Cow', 'Dog', 'Horse']
+            answerChoices: ['Cat', 'Cow', 'Dog', 'Horse'],
+            passed: false
         };
     }
 
@@ -57,7 +59,7 @@ export class Home extends React.Component<ComponentProps, ComponentState>{
                             <ul className="list-unstyled">
                                 {this.state.answerChoices.map((valueText, index) => {
                                     return <li >
-                                        <button className="btn btn-lg btn-block btn-primary">
+                                        <button className="btn btn-lg btn-block btn-primary" onClick={() => { this.validateAnswer(valueText) }}>
                                             {valueText}
                                         </button>
                                         &nbsp;
@@ -68,29 +70,62 @@ export class Home extends React.Component<ComponentProps, ComponentState>{
                     </div>
                 </div>
             </div>
+
+            {/* Result */}
+            <DisplayResult isCorrect={this.state.passed} />
         </div>;
     }
 
     private refreshImage(): void {
-        
+
         {/* change the image on left side */ }
-        var newIndex: number; 
+        var newIndex: number;
         var currentIndex = this.state.imageChoices.indexOf(this.state.currentImage);
         if (currentIndex == 3) {
             newIndex = 0;
         }
-        else
-        {
-            newIndex = currentIndex + 1;  
+        else {
+            newIndex = currentIndex + 1;
         }
-        
-        var currentImage = this.state.imageChoices[newIndex];
+
+        var newImage = this.state.imageChoices[newIndex];
 
         this.setState({
-            currentImage: currentImage, 
+            currentImage: newImage,
             imageChoices: this.state.imageChoices,
-            answerChoices: this.state.answerChoices 
+            answerChoices: this.state.answerChoices,
+            passed: this.state.passed
         });
+    }
+
+    private validateAnswer(selectedAnswer: string): void {
+        var isCorrect = (this.state.currentImage.indexOf(selectedAnswer.toLowerCase()) != -1);
+        this.setState({
+            currentImage: this.state.currentImage,
+            imageChoices: this.state.imageChoices,
+            answerChoices: this.state.answerChoices,
+            passed: isCorrect
+        });
+    }
+}
+
+interface DisplayResultProps {
+    isCorrect: boolean;
+}
+
+export class DisplayResult extends React.Component<DisplayResultProps, any>{
+    public render() {
+        return <div className="clear-fix row">
+            {
+                (this.props.isCorrect) ?
+                    <div className="text-success jumbotron">
+                        <h1> <i className="glyphicon glyphicon-ok" /> Yay! </h1>
+                    </div>
+                    : <div className="text-danger">
+                        <h1> <i className="glyphicon glyphicon-ok" /> Oops.. Try again.. </h1>
+                    </div>
+            }
+        </div>
     }
 }
 
