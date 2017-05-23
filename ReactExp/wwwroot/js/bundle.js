@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "2d59fe12a4e06be2bfdd"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "8d12e6a297b502605c14"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -631,7 +631,9 @@
 /******/ 		}
 /******/ 	
 /******/ 		hotSetStatus("idle");
-/******/ 		return Promise.resolve(outdatedModules);
+/******/ 		return new Promise(function(resolve) {
+/******/ 			resolve(outdatedModules);
+/******/ 		});
 /******/ 	}
 /******/
 /******/ 	// The module cache
@@ -2476,7 +2478,7 @@ var _components = {
 };
 
 var _reactTransformHmr2 = (0, _reactTransformHmr4.default)({
-    filename: 'C:/Users/snaru01/Source/Repos/ReactExp/ReactExp/Scripts/ClientApp/home.tsx',
+    filename: 'C:/Users/shiva/Source/Repos/ReactExp/ReactExp/Scripts/ClientApp/home.tsx',
     components: _components,
     locals: [module],
     imports: [React.default]
@@ -2507,7 +2509,8 @@ var Home = exports.Home = _wrapComponent('Home')(function (_React$Component) {
             imageChoices: ['/images/cat.jpg', '/images/cow.jpg', '/images/dog.jpg', '/images/horse.jpg'],
             currentImage: '/images/cat.jpg',
             answerChoices: ['Cat', 'Cow', 'Dog', 'Horse'],
-            passed: false
+            passed: false,
+            showResult: false
         };
         return _this;
     }
@@ -2600,7 +2603,7 @@ var Home = exports.Home = _wrapComponent('Home')(function (_React$Component) {
                         )
                     )
                 ),
-                React.createElement(DisplayResult, { isCorrect: this.state.passed })
+                React.createElement(DisplayResult, { isCorrect: this.state.passed, isVisible: this.state.showResult })
             );
         }
     }, {
@@ -2619,7 +2622,8 @@ var Home = exports.Home = _wrapComponent('Home')(function (_React$Component) {
                 currentImage: newImage,
                 imageChoices: this.state.imageChoices,
                 answerChoices: this.state.answerChoices,
-                passed: this.state.passed
+                passed: this.state.passed,
+                showResult: false
             });
         }
     }, {
@@ -2630,7 +2634,8 @@ var Home = exports.Home = _wrapComponent('Home')(function (_React$Component) {
                 currentImage: this.state.currentImage,
                 imageChoices: this.state.imageChoices,
                 answerChoices: this.state.answerChoices,
-                passed: isCorrect
+                passed: isCorrect,
+                showResult: true
             });
         }
     }]);
@@ -2653,9 +2658,9 @@ var DisplayResult = exports.DisplayResult = _wrapComponent('DisplayResult')(func
             return React.createElement(
                 'div',
                 { className: 'clear-fix row' },
-                this.props.isCorrect ? React.createElement(
+                this.props.isVisible ? this.props.isCorrect ? React.createElement(
                     'div',
-                    { className: 'text-success jumbotron' },
+                    { className: 'text-success' },
                     React.createElement(
                         'h1',
                         null,
@@ -2670,9 +2675,13 @@ var DisplayResult = exports.DisplayResult = _wrapComponent('DisplayResult')(func
                         'h1',
                         null,
                         ' ',
-                        React.createElement('i', { className: 'glyphicon glyphicon-ok' }),
+                        React.createElement('i', { className: 'glyphicon glyphicon-remove' }),
                         ' Oops.. Try again.. '
                     )
+                ) : React.createElement(
+                    'div',
+                    null,
+                    ' '
                 )
             );
         }

@@ -12,7 +12,9 @@ export class Home extends React.Component {
         this.state = {
             imageChoices: ['/images/cat.jpg', '/images/cow.jpg', '/images/dog.jpg', '/images/horse.jpg'],
             currentImage: '/images/cat.jpg',
-            answerChoices: ['Cat', 'Cow', 'Dog', 'Horse']
+            answerChoices: ['Cat', 'Cow', 'Dog', 'Horse'],
+            passed: false,
+            showResult: false
         };
     }
     render() {
@@ -53,6 +55,9 @@ export class Home extends React.Component {
                     </div>
                 </div>
             </div>
+
+            
+            <DisplayResult isCorrect={this.state.passed} isVisible={this.state.showResult}/>
         </div>;
     }
     refreshImage() {
@@ -69,11 +74,33 @@ export class Home extends React.Component {
         this.setState({
             currentImage: newImage,
             imageChoices: this.state.imageChoices,
-            answerChoices: this.state.answerChoices
+            answerChoices: this.state.answerChoices,
+            passed: this.state.passed,
+            showResult: false
         });
     }
     validateAnswer(selectedAnswer) {
-        console.log(selectedAnswer);
+        var isCorrect = (this.state.currentImage.indexOf(selectedAnswer.toLowerCase()) != -1);
+        this.setState({
+            currentImage: this.state.currentImage,
+            imageChoices: this.state.imageChoices,
+            answerChoices: this.state.answerChoices,
+            passed: isCorrect,
+            showResult: true
+        });
+    }
+}
+export class DisplayResult extends React.Component {
+    render() {
+        return <div className="clear-fix row">
+            {(this.props.isVisible) ? ((this.props.isCorrect) ?
+            <div className="text-success">
+                        <h1> <i className="glyphicon glyphicon-ok"/> Yay! </h1>
+                    </div>
+            : <div className="text-danger">
+                        <h1> <i className="glyphicon glyphicon-remove"/> Oops.. Try again.. </h1>
+                        </div>) : <div> </div>}
+        </div>;
     }
 }
 ReactDOM.render(<Home foo='shiva'/>, document.getElementById('app'));

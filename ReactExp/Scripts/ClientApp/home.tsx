@@ -19,6 +19,7 @@ interface ComponentState {
     currentImage: string;
     answerChoices: string[];
     passed: boolean;
+    showResult: boolean;
 }
 
 export class Home extends React.Component<ComponentProps, ComponentState>{
@@ -28,7 +29,8 @@ export class Home extends React.Component<ComponentProps, ComponentState>{
             imageChoices: ['/images/cat.jpg', '/images/cow.jpg', '/images/dog.jpg', '/images/horse.jpg'],
             currentImage: '/images/cat.jpg',
             answerChoices: ['Cat', 'Cow', 'Dog', 'Horse'],
-            passed: false
+            passed: false,
+            showResult: false
         };
     }
 
@@ -72,7 +74,7 @@ export class Home extends React.Component<ComponentProps, ComponentState>{
             </div>
 
             {/* Result */}
-            <DisplayResult isCorrect={this.state.passed} />
+            <DisplayResult isCorrect={this.state.passed} isVisible={this.state.showResult} />
         </div>;
     }
 
@@ -94,7 +96,8 @@ export class Home extends React.Component<ComponentProps, ComponentState>{
             currentImage: newImage,
             imageChoices: this.state.imageChoices,
             answerChoices: this.state.answerChoices,
-            passed: this.state.passed
+            passed: this.state.passed,
+            showResult:false 
         });
     }
 
@@ -104,26 +107,30 @@ export class Home extends React.Component<ComponentProps, ComponentState>{
             currentImage: this.state.currentImage,
             imageChoices: this.state.imageChoices,
             answerChoices: this.state.answerChoices,
-            passed: isCorrect
+            passed: isCorrect,
+            showResult: true
         });
     }
 }
 
 interface DisplayResultProps {
     isCorrect: boolean;
+    isVisible: boolean;
 }
 
 export class DisplayResult extends React.Component<DisplayResultProps, any>{
     public render() {
         return <div className="clear-fix row">
             {
+                (this.props.isVisible) ? (
                 (this.props.isCorrect) ?
-                    <div className="text-success jumbotron">
+                    <div className="text-success">
                         <h1> <i className="glyphicon glyphicon-ok" /> Yay! </h1>
                     </div>
                     : <div className="text-danger">
-                        <h1> <i className="glyphicon glyphicon-ok" /> Oops.. Try again.. </h1>
-                    </div>
+                        <h1> <i className="glyphicon glyphicon-remove" /> Oops.. Try again.. </h1>
+                        </div>
+                    ) : <div> </div>
             }
         </div>
     }
